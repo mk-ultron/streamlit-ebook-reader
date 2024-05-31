@@ -36,6 +36,31 @@ if st.button("Convert to Speech"):
     else:
         st.warning("Please enter some text to convert.")
         
+# Function to display story
+def display_story(story):
+    col = st.columns(1)[0]
+    with col:
+        st.image(story['image'], use_column_width=True)
+        st.subheader(story['title'])
+        st.markdown(story['summary'])
+        with st.expander("Read Full Story"):
+            st.markdown(format_full_text(story['full_text']), unsafe_allow_html=True)
+            audio_file = f"audio_{story['id']}.mp3"
+            if st.button("Generate Audio", key=f"audio_{story['id']}"):
+                with st.spinner('Generating audio...'):
+                    text_to_speech(story['full_text'], audio_file, "alloy")
+                st.audio(audio_file, format='audio/mp3')
+                with open(audio_file, "rb") as file:
+                    st.download_button(
+                        label="Download MP3",
+                        data=file,
+                        file_name=audio_file,
+                        mime="audio/mpeg"
+                    )
+            if st.button("Copy Text", key=f"copy_{story['id']}"):
+                st.write("Text Copied!")
+
+# Function to format the full text of the story
 def format_full_text(full_text):
     paragraphs = full_text.split("\n\n")
     formatted_text = "".join([f"<p>{paragraph}</p>" for paragraph in paragraphs])
@@ -84,8 +109,26 @@ for story in stories:
     display_story(story)
 st.markdown('</div>', unsafe_allow_html=True)
 
-# Display modals
-display_modals(stories)
+# Text-to-Speech Section
+st.markdown("## Text-to-Speech")
+st.subheader("Convert any of the story texts below to speech by copying the text and clicking convert. You can also download the result in .mp3 format.")
+text = st.text_area("Enter the text you want to convert to speech:")
+voice = st.selectbox("Choose a voice", ["alloy", "echo", "fable", "onyx", "nova", "shimmer"])
 
+if st.button("Convert to Speech"):
+    if text:
+        with st.spinner('Generating audio...'):
+            filename = "output.mp3"
+            file_path = text_to_speech(text, filename, voice)
+            st.audio(file_path, format='audio/mp3')
+            with open(file_path, "rb") as file:
+                st.download_button(
+                    label="Download MP3",
+                    data=file,
+                    file_name=filename,
+                    mime="audio/mpeg"
+                )
+    else:
+        st.warning("Please enter some text to convert.")
 
 
