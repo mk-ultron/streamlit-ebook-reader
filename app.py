@@ -32,11 +32,12 @@ def display_story(story):
         if st.button("Read Full Story", key=f"read_{story['id']}"):
             st.session_state[f"modal_{story['id']}"] = True
 
-# Function to display modals for full stories
+# Function to display modals for full stories using experimental_dialog
 def display_modals(stories):
     for story in stories:
         if st.session_state.get(f"modal_{story['id']}", False):
-            with st.modal(title=story['title']):
+            @st.experimental_dialog(title=story['title'], width="large")
+            def show_story_dialog():
                 st.image(story['image'], use_column_width=True)
                 st.markdown(story['full_text'])
                 audio_file = f"audio_{story['id']}.mp3"
@@ -53,6 +54,7 @@ def display_modals(stories):
                         )
                 if st.button("Close", key=f"close_{story['id']}"):
                     st.session_state[f"modal_{story['id']}"] = False
+                    st.experimental_rerun()
 
 # List of stories
 stories = [
