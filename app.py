@@ -2,7 +2,9 @@ import streamlit as st
 import openai
 from pathlib import Path
 
-# Function to convert text to speech
+# Load the OpenAI API key from Streamlit's secrets
+api_key = st.secrets["api_keys"]["openai"]
+
 def text_to_speech(text, filename, voice="alloy"):
     # Initialize the OpenAI client with the API key
     openai.api_key = api_key
