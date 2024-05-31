@@ -109,26 +109,5 @@ for story in stories:
     display_story(story)
 st.markdown('</div>', unsafe_allow_html=True)
 
-# Text-to-Speech Section
-st.markdown("## Text-to-Speech")
-st.subheader("Convert any of the story texts below to speech by copying the text and clicking convert. You can also download the result in .mp3 format.")
-text = st.text_area("Enter the text you want to convert to speech:")
-voice = st.selectbox("Choose a voice", ["alloy", "echo", "fable", "onyx", "nova", "shimmer"])
-
-if st.button("Convert to Speech"):
-    if text:
-        with st.spinner('Generating audio...'):
-            filename = "output.mp3"
-            file_path = text_to_speech(text, filename, voice)
-            st.audio(file_path, format='audio/mp3')
-            with open(file_path, "rb") as file:
-                st.download_button(
-                    label="Download MP3",
-                    data=file,
-                    file_name=filename,
-                    mime="audio/mpeg"
-                )
-    else:
-        st.warning("Please enter some text to convert.")
 
 
