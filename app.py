@@ -123,8 +123,8 @@ The battle was fierce, with the very fate of Eldoria hanging in the balance. Jus
 With the Dark Sorcerer defeated, the realm of Eldoria was saved. The adventurers returned as heroes, their names forever etched in legend. The Crystal of Light was placed in the capital, a symbol of hope and unity.
 Eldoria flourished, and the bond between the adventurers remained strong. They had not only saved their world but also proven that even in the darkest times, light and unity could prevail.""",
     "image": "story-image5.png"
-}
-
+},
+]
 # Streamlit App Layout
 st.title("Fast AI Fiction")
 
