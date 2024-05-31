@@ -4,14 +4,21 @@ from pathlib import Path
 
 # Function to convert text to speech
 def text_to_speech(text, filename, voice="alloy"):
-    openai.api_key = st.secrets["api_keys"]["openai"]
-    response = openai.Audio.create(
+    # Initialize the OpenAI client with the API key
+    openai.api_key = api_key
+    client = openai.OpenAI(api_key=api_key)
+    
+    # Make a request to OpenAI's TTS API to convert text to speech
+    response = client.audio.speech.create(
         model="tts-1",
         voice=voice,
         input=text
     )
-    with open(filename, 'wb') as audio_file:
-        audio_file.write(response.audio_content)
+    
+    # Save the audio content to a file
+    speech_file_path = Path(filename)
+    response.stream_to_file(speech_file_path)
+    
     return filename
 
 # Text-to-Speech Section
