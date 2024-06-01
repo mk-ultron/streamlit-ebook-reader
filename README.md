@@ -88,8 +88,8 @@ After running the Streamlit app, you can open your browser and navigate to `http
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request or open an Issue if you have any suggestions or improvements.
----
+**Contributions are welcome! Please feel free to submit a Pull Request or open an Issue if you have any suggestions or improvements.
+**---
 
 Happy reading and listening!
 ```
