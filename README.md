@@ -1,4 +1,3 @@
-```markdown
 # Streamlit eBook Reader
 
 Welcome to the Streamlit eBook Reader! This project is a Streamlit application that allows users to read and listen to short stories. The stories can be viewed with images, summaries, and full text, and users can generate audio versions of the stories using OpenAI's Text-to-Speech (TTS) API.
