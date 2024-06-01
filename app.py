@@ -1,6 +1,7 @@
 import streamlit as st
 import openai
 from pathlib import Path
+import pyperclip
 
 # Load the OpenAI API key from Streamlit's secrets
 api_key = st.secrets["api_keys"]["openai"]
@@ -46,8 +47,7 @@ if st.button("Convert to Speech"):
         st.warning("Please enter some text to convert.")
         
 # Function to display story
-def display_story(story):
-    col = st.columns(1)[0]
+def display_story(story, col):
     with col:
         st.image(story['image'], use_column_width=True)
         st.subheader(story['title'])
@@ -67,14 +67,14 @@ def display_story(story):
                         mime="audio/mpeg"
                     )
             if st.button("Copy Text", key=f"copy_{story['id']}"):
-                st.write("Text Copied!")
+                pyperclip.copy(story['full_text'])
+                st.success("Text Copied!")
 
 # Function to format the full text of the story
 def format_full_text(full_text):
     paragraphs = full_text.split("\n\n")
     formatted_text = "".join([f"<p>{paragraph}</p>" for paragraph in paragraphs])
     return formatted_text
-
 # List of stories
 stories = [
     {
@@ -145,8 +145,11 @@ st.markdown("""
 
 # Display stories
 st.markdown('<div class="story-card">', unsafe_allow_html=True)
-for story in stories:
-    display_story(story)
+columns = st.columns(3)  # Create 3 columns
+
+for i, story in enumerate(stories):
+    display_story(story, columns[i % 3])  # Display each story in one of the 3 columns
+
 st.markdown('</div>', unsafe_allow_html=True)
 
 
