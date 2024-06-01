@@ -19,24 +19,18 @@ def text_to_speech(text, filename, voice="alloy"):
         input=text
     )
     
-     # Save the audio content to a file
+    # Save the audio content to a file
     speech_file_path = Path(filename)
-    with open(speech_file_path, 'wb') as audio_file:
-        audio_file.write(response["audio_content"])
+    response.stream_to_file(speech_file_path)
     
     return filename
       
 # Function to display story
 def display_story(story, col):
     with col:
-        st.markdown(f"""
-            <div class="story-container">
-                <img src="{story['image']}" class="story-image" />
-                <h2>{story['title']}</h2>
-                <p>{story['summary']}</p>
-            </div>
-        """, unsafe_allow_html=True)
-        
+        st.image(story['image'], use_column_width=True)
+        st.subheader(story['title'])
+        st.markdown(story['summary'])
         with st.expander("Read Full Story"):
             st.markdown(format_full_text(story['full_text']), unsafe_allow_html=True)
             audio_file = f"audio_{story['id']}.mp3"
@@ -75,41 +69,34 @@ stories = [
         "image": "story-image2.png"
     },
     {
-        "id": "story3",
-        "title": "The Clockwork Quest",
-        "summary": "In the steam-powered city of Gearford, young inventor Elara and daring airship captain Gideon embark on a thrilling quest to uncover ancient technology. Explore a world of airships and clockwork wonders as they race against time to unlock the secrets of the lost city of Astralium.",
-        "full_text": """In the steam-powered city of Gearford, where airships soared through smog-filled skies and clockwork mechanisms whirred tirelessly, young inventor Elara dreamed of discovery. Her life changed when she stumbled upon an ancient, forgotten map hidden within the gears of an old automaton.\n\nThe map led to the lost city of Astralium, rumored to house technology far beyond their own. Elara knew she couldn't embark on this journey alone, so she sought the help of Captain Gideon, a daring airship pilot known for his unorthodox methods and unmatched skills.\n\nTogether, they gathered a crew of misfits and set sail on the airship Aurora. Their quest was fraught with peril—treacherous skies, mechanical beasts, and rival treasure hunters. But Elara's ingenuity and Gideon's expertise saw them through each challenge.\n\nAs they delved deeper into uncharted territories, they uncovered clues about Astralium's secrets. The lost city was said to be powered by a core of pure aetherium, a substance with limitless energy potential. Such power could revolutionize their world, but in the wrong hands, it could spell disaster.\n\nAfter weeks of searching, they finally reached the hidden entrance to Astralium. Inside, they found wonders beyond imagination—machines that defied the laws of physics and constructs that seemed almost alive. But they also discovered the truth: the city's downfall had been caused by the very power it sought to harness.\n\nRealizing the dangers, Elara and Gideon decided to secure the knowledge and prevent it from falling into the wrong hands. They documented their findings, disabling the most dangerous devices, and sealed the city's entrance.\n\nReturning to Gearford, they shared their discoveries, advocating for responsible use of technology. Elara's reputation as an inventor soared, and Gideon became a legend. Together, they inspired a new era of innovation tempered with caution, ensuring the mistakes of Astralium would never be repeated.""",
-        "image": "story-image3.png"
+    "id": "story3",
+    "title": "The Clockwork Quest",
+    "summary": "In the steam-powered city of Gearford, young inventor Elara and daring airship captain Gideon embark on a thrilling quest to uncover ancient technology. Explore a world of airships and clockwork wonders as they race against time to unlock the secrets of the lost city of Astralium.",
+    "full_text": """In the steam-powered city of Gearford, where airships soared through smog-filled skies and clockwork mechanisms whirred tirelessly, young inventor Elara dreamed of discovery. Her life changed when she stumbled upon an ancient, forgotten map hidden within the gears of an old automaton.\n\nThe map led to the lost city of Astralium, rumored to house technology far beyond their own. Elara knew she couldn't embark on this journey alone, so she sought the help of Captain Gideon, a daring airship pilot known for his unorthodox methods and unmatched skills.\n\nTogether, they gathered a crew of misfits and set sail on the airship Aurora. Their quest was fraught with peril—treacherous skies, mechanical beasts, and rival treasure hunters. But Elara's ingenuity and Gideon's expertise saw them through each challenge.\n\nAs they delved deeper into uncharted territories, they uncovered clues about Astralium's secrets. The lost city was said to be powered by a core of pure aetherium, a substance with limitless energy potential. Such power could revolutionize their world, but in the wrong hands, it could spell disaster.\n\nAfter weeks of searching, they finally reached the hidden entrance to Astralium. Inside, they found wonders beyond imagination—machines that defied the laws of physics and constructs that seemed almost alive. But they also discovered the truth: the city's downfall had been caused by the very power it sought to harness.\n\nRealizing the dangers, Elara and Gideon decided to secure the knowledge and prevent it from falling into the wrong hands. They documented their findings, disabling the most dangerous devices, and sealed the city's entrance.\n\nReturning to Gearford, they shared their discoveries, advocating for responsible use of technology. Elara's reputation as an inventor soared, and Gideon became a legend. Together, they inspired a new era of innovation tempered with caution, ensuring the mistakes of Astralium would never be repeated.""",
+    "image": "story-image3.png"
     },
     {
-        "id": "story4",
-        "title": "The Hidden Underworld",
-        "summary": "Detective Lila Blake navigates the hidden underworld of New Avalon, where magical creatures and wizards dwell alongside humans. When a series of magical crimes threaten to unravel the city's delicate balance, Lila must bridge two worlds to uncover the truth and save her city from chaos.",
-        "full_text": """In the bustling metropolis of New Avalon, Detective Lila Blake was known for her sharp mind and unyielding determination. However, few knew that Lila had a secret—she was one of the few humans aware of the city's hidden underworld, a realm of magical creatures and ancient wizards existing alongside the mundane world.\n\nHer dual knowledge came into play when a series of bizarre crimes began to plague New Avalon. Victims were found with strange, arcane symbols etched into their skin, and the air was thick with dark magic. Lila knew this wasn't the work of any ordinary criminal.\n\nUsing her connections in both worlds, Lila began her investigation. She consulted with Finn, a centuries-old wizard, and Delilah, a shapeshifter with a penchant for secrets. Together, they uncovered a sinister plot orchestrated by a rogue mage seeking to merge the magical and human realms by breaking the ancient barriers that separated them.\n\nAs the crimes escalated, Lila's two worlds collided. She had to navigate treacherous alliances and fend off magical attacks, all while keeping the truth hidden from her colleagues in the police force. The stakes were raised when the rogue mage kidnapped Delilah, intending to use her unique abilities to finalize the ritual.\n\nIn a race against time, Lila and Finn confronted the rogue mage in an abandoned cathedral, the epicenter of magical convergence. The battle was fierce, spells clashing and energy crackling in the air. Just as the mage began the final incantation, Lila, using a combination of wit and courage, disrupted the ritual, freeing Delilah and neutralizing the mage.\n\nWith the threat averted, the barriers between the worlds remained intact. Lila ensured the rogue mage was imprisoned in the magical realm, unable to threaten either world again. Her actions earned her respect in both realms, but she knew her work was far from over.\n\nNew Avalon thrived, with its secret underworld continuing to coexist in the shadows. And Detective Lila Blake stood as its silent guardian, ever vigilant against the dark forces that threatened the delicate balance.""",
-        "image": "story-image4.png"
+    "id": "story4",
+    "title": "The Hidden Underworld",
+    "summary": "Detective Lila Blake navigates the hidden underworld of New Avalon, where magical creatures and wizards dwell alongside humans. When a series of magical crimes threaten to unravel the city's delicate balance, Lila must bridge two worlds to uncover the truth and save her city from chaos.",
+    "full_text": """In the bustling metropolis of New Avalon, Detective Lila Blake was known for her sharp mind and unyielding determination. However, few knew that Lila had a secret—she was one of the few humans aware of the city's hidden underworld, a realm of magical creatures and ancient wizards existing alongside the mundane world.\n\nHer dual knowledge came into play when a series of bizarre crimes began to plague New Avalon. Victims were found with strange, arcane symbols etched into their skin, and the air was thick with dark magic. Lila knew this wasn't the work of any ordinary criminal.\n\nUsing her connections in both worlds, Lila began her investigation. She consulted with Finn, a centuries-old wizard, and Delilah, a shapeshifter with a penchant for secrets. Together, they uncovered a sinister plot orchestrated by a rogue mage seeking to merge the magical and human realms by breaking the ancient barriers that separated them.\n\nAs the crimes escalated, Lila's two worlds collided. She had to navigate treacherous alliances and fend off magical attacks, all while keeping the truth hidden from her colleagues in the police force. The stakes were raised when the rogue mage kidnapped Delilah, intending to use her unique abilities to finalize the ritual.\n\nIn a race against time, Lila and Finn confronted the rogue mage in an abandoned cathedral, the epicenter of magical convergence. The battle was fierce, spells clashing and energy crackling in the air. Just as the mage began the final incantation, Lila, using a combination of wit and courage, disrupted the ritual, freeing Delilah and neutralizing the mage.\n\nWith the threat averted, the barriers between the worlds remained intact. Lila ensured the rogue mage was imprisoned in the magical realm, unable to threaten either world again. Her actions earned her respect in both realms, but she knew her work was far from over.\n\nNew Avalon thrived, with its secret underworld continuing to coexist in the shadows. And Detective Lila Blake stood as its silent guardian, ever vigilant against the dark forces that threatened the delicate balance.""",
+    "image": "story-image4.png"
     },
     {
-        "id": "story5",
-        "title": "The Quest for the Crystal",
-        "summary": "In the realm of Eldoria, darkness rises as the Dark Sorcerer Malakar seeks to conquer the land. A valiant knight, a skilled archer, a cunning rogue, and a young mage band together on a perilous quest for the legendary Crystal of Light. Witness their epic journey to save their world from eternal night.",
-        "full_text": """In the ancient realm of Eldoria, where dragons soared through the skies and mythical creatures roamed the forests, a shadow of darkness began to spread. The Dark Sorcerer, Malakar, had risen, seeking to plunge the land into eternal night. The only hope lay in the legendary Crystal of Light, hidden deep within the heart of the Forbidden Mountain.A prophecy foretold that only a band of true-hearted adventurers could retrieve the crystal and save Eldoria. Thus, a diverse group was assembled: Eamon, a valiant knight; Lyra, a skilled archer; Thorne, a cunning rogue; and Arin, a young mage with untapped potential.\n\nTheir journey was fraught with peril. They crossed treacherous landscapes, battled fierce creatures, and solved ancient riddles. Along the way, they forged an unbreakable bond, each bringing their unique strengths to the fore. Eamon's bravery, Lyra's precision, Thorne's agility, and Arin's growing magical prowess complemented each other perfectly.\n\nAs they neared the Forbidden Mountain, Malakar's minions attacked in full force. The adventurers fought valiantly, but the dark magic was overwhelming. In a moment of desperation, Arin tapped into a hidden well of power, casting a spell that drove the minions back and revealed the entrance to the mountain.\n\nInside, they faced the final challenge: a labyrinth filled with traps and illusions. Their unity and trust in each other saw them through, leading them to the chamber of the Crystal of Light. As they approached, Malakar himself appeared, wielding dark sorcery.\n\nThe battle was fierce, with the very fate of Eldoria hanging in the balance. Just when all seemed lost, Eamon's courage, Lyra's arrows, Thorne's stealth, and Arin's magic combined in a final, desperate strike. The crystal unleashed a blinding light, vanquishing Malakar and dispelling the darkness.\n\nWith the Dark Sorcerer defeated, the realm of Eldoria was saved. The adventurers returned as heroes, their names forever etched in legend. The Crystal of Light was placed in the capital, a symbol of hope and unity.\n\nEldoria flourished, and the bond between the adventurers remained strong. They had not only saved their world but also proven that even in the darkest times, light and unity could prevail.""",
-        "image": "story-image5.png"
+    "id": "story5",
+    "title": "The Quest for the Crystal",
+    "summary": "In the realm of Eldoria, darkness rises as the Dark Sorcerer Malakar seeks to conquer the land. A valiant knight, a skilled archer, a cunning rogue, and a young mage band together on a perilous quest for the legendary Crystal of Light. Witness their epic journey to save their world from eternal night.",
+    "full_text": """In the ancient realm of Eldoria, where dragons soared through the skies and mythical creatures roamed the forests, a shadow of darkness began to spread. The Dark Sorcerer, Malakar, had risen, seeking to plunge the land into eternal night. The only hope lay in the legendary Crystal of Light, hidden deep within the heart of the Forbidden Mountain.A prophecy foretold that only a band of true-hearted adventurers could retrieve the crystal and save Eldoria. Thus, a diverse group was assembled: Eamon, a valiant knight; Lyra, a skilled archer; Thorne, a cunning rogue; and Arin, a young mage with untapped potential.\n\nTheir journey was fraught with peril. They crossed treacherous landscapes, battled fierce creatures, and solved ancient riddles. Along the way, they forged an unbreakable bond, each bringing their unique strengths to the fore. Eamon's bravery, Lyra's precision, Thorne's agility, and Arin's growing magical prowess complemented each other perfectly.\n\nAs they neared the Forbidden Mountain, Malakar's minions attacked in full force. The adventurers fought valiantly, but the dark magic was overwhelming. In a moment of desperation, Arin tapped into a hidden well of power, casting a spell that drove the minions back and revealed the entrance to the mountain.\n\nInside, they faced the final challenge: a labyrinth filled with traps and illusions. Their unity and trust in each other saw them through, leading them to the chamber of the Crystal of Light. As they approached, Malakar himself appeared, wielding dark sorcery.\n\nThe battle was fierce, with the very fate of Eldoria hanging in the balance. Just when all seemed lost, Eamon's courage, Lyra's arrows, Thorne's stealth, and Arin's magic combined in a final, desperate strike. The crystal unleashed a blinding light, vanquishing Malakar and dispelling the darkness.\n\nWith the Dark Sorcerer defeated, the realm of Eldoria was saved. The adventurers returned as heroes, their names forever etched in legend. The Crystal of Light was placed in the capital, a symbol of hope and unity.\n\nEldoria flourished, and the bond between the adventurers remained strong. They had not only saved their world but also proven that even in the darkest times, light and unity could prevail.""",
+    "image": "story-image5.png"
     },
 ]
 
-# Custom CSS for image centering and sizing
+# Streamlit App Layout
+st.title("Fast AI Fiction")
+
+# Custom CSS for responsive layout
 st.markdown("""
     <style>
-    .story-container {
-        text-align: center;
-    }
-    .story-image {
-        max-width: 100%;
-        height: auto;
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-    }
     .story-card {
         display: flex;
         flex-wrap: wrap;
@@ -122,17 +109,11 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# Streamlit App Layout
-st.title("Fast AI Fiction")
-
 # Display stories
 st.markdown('<div class="story-card">', unsafe_allow_html=True)
 columns = st.columns(3)  # Create 3 columns
 
 for i, story in enumerate(stories):
-    display_story(story, columns[i % 3])  # Display each story in one of the 3 columns
+    display_story(story, columns[i % 3])  # Display each story in one of the 2 columns
 
 st.markdown('</div>', unsafe_allow_html=True)
-
-
-
