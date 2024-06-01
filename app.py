@@ -3,6 +3,8 @@ import openai
 from pathlib import Path
 import pyperclip
 
+st.set_page_config(layout="wide")
+
 # Load the OpenAI API key from Streamlit's secrets
 api_key = st.secrets["api_keys"]["openai"]
 
